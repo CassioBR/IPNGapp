@@ -1,0 +1,7 @@
+{
+  "name": "IPNGapp",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
