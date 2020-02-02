@@ -20,7 +20,7 @@ export class AuthService {
     return this.authState$.pipe(map(user => user !== null));
   }
 
-  authenticate({ isSignIn, provider, user }): Promise<auth.UserCredential> {
+  authenticate({ isSignIn, provider, user }: AuthOptions): Promise<auth.UserCredential> {
     let operation: Promise<auth.UserCredential>;
 
     if (provider !== AuthProvider.Email) {
@@ -28,11 +28,10 @@ export class AuthService {
     } else {
       operation = isSignIn ? this.signInWithEmail(user) : this.signUpWithEmail(user);
     }
-
     return operation;
   }
 
-  logou(): Promise<void> {
+  logout(): Promise<void> {
     return this.afAuth.auth.signOut();
   }
 
@@ -55,7 +54,7 @@ export class AuthService {
 
     switch (provider) {
       case AuthProvider.Facebook:
-        signInProvider = new auth.EmailAuthProvider();
+        signInProvider = new auth.FacebookAuthProvider();
         break;
     }
 

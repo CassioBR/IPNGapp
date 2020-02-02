@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import {AuthService  } from 'src/app/core/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { AuthProvider } from 'src/app/core/services/auth.types';
 
 @Component({
@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
     action: 'Login',
     actionChange: 'Create account'
   };
-  private nameControl = new FormControl('',[Validators.required, Validators.minLength(3) ]);
+  private nameControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
   constructor(private authService: AuthService, private fb: FormBuilder) {}
 
@@ -32,20 +32,20 @@ export class LoginPage implements OnInit {
   }
 
   get name(): FormControl {
-    return <FormControl> this.authForm.get('name');
+    return this.authForm.get('name') as FormControl;
   }
 
   get email(): FormControl {
-    return <FormControl> this.authForm.get('email');
+    return this.authForm.get('email') as FormControl;
   }
 
   get password(): FormControl {
-    return <FormControl> this.authForm.get('password');
+    return this.authForm.get('password') as FormControl;
   }
 
   changeAuthAction(): void {
     this.configs.isSignIn = !this.configs.isSignIn;
-    const{isSignIn } = this.configs;
+    const { isSignIn } = this.configs;
     this.configs.action = isSignIn ? 'Login' : 'Siign Up';
     this.configs.actionChange = isSignIn ? 'Create account' : 'Already have an account';
     !isSignIn
@@ -54,17 +54,16 @@ export class LoginPage implements OnInit {
   }
 
   async onSubmit(provider: AuthProvider): Promise<void> {
-   try {
-     const credentials = await this.authService.authenticate({
-       isSignIn: this.configs.isSignIn,
-       user: this.authForm.value,
-       provider
-     });
-     console.log('Authenticated: ', credentials);
-     console.log('Redirecting...');
-   } catch (e) {
-     console.log('Auth error: ', e);
-
-   }
+    try {
+      const credentials = await this.authService.authenticate({
+        isSignIn: this.configs.isSignIn,
+        user: this.authForm.value,
+        provider
+      });
+      console.log('Authenticated: ', credentials);
+      console.log('Redirecting...');
+    } catch (e) {
+      console.log('Auth error: ', e);
+    }
   }
 }
